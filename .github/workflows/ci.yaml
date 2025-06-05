@@ -7,8 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  frontend:
-    name: Build and Test Frontend
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,12 +17,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '20'  # Required by react-router-dom@7.6.2
 
       - name: Install frontend dependencies
+        working-directory: frontend
         run: npm install
-        working-directory: frontend  # 👈 install inside frontend
 
-      - name: Run tests
+      - name: Run frontend tests
+        working-directory: frontend
         run: npm test -- --watchAll=false --passWithNoTests
-        working-directory: frontend  # 👈 test inside frontend
