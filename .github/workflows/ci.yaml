@@ -7,12 +7,9 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  frontend:
+    name: Build and Test Frontend
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: frontend  
 
     steps:
       - name: Checkout repository
@@ -23,8 +20,10 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         run: npm install
+        working-directory: frontend  # 👈 install inside frontend
 
       - name: Run tests
         run: npm test -- --watchAll=false --passWithNoTests
+        working-directory: frontend  # 👈 test inside frontend
