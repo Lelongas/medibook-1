@@ -1,4 +1,4 @@
-name: React CI/CD
+name: React Frontend CI
 
 on:
   push:
@@ -7,22 +7,23 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  frontend:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'  # Required by react-router-dom@7.6.2
+          node-version: 18
 
-      - name: Install frontend dependencies
-        working-directory: frontend
+      - name: Install dependencies
         run: npm install
 
-      - name: Run frontend tests
-        working-directory: frontend
+      - name: Run tests
         run: npm test -- --watchAll=false --passWithNoTests
