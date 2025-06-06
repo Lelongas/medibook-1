@@ -7,8 +7,9 @@ on:
     branches: [ main ]
 
 jobs:
-  check-frontend:
+  check-frontend-backend:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
 
@@ -20,11 +21,23 @@ jobs:
       - name: Check frontend folder exists
         run: test -d frontend
 
-      - name: Validate package.json
+      - name: Validate frontend package.json
         working-directory: frontend
         run: node -e "require('./package.json')"
 
-      - name: Syntax check JavaScript files
+      - name: Syntax check frontend JavaScript files
         working-directory: frontend
+        run: |
+          find . -name "*.js" -not -path "*/node_modules/*" -exec node --check {} \;
+
+      - name: Check backend folder exists
+        run: test -d backend
+
+      - name: Validate backend package.json
+        working-directory: backend
+        run: node -e "require('./package.json')"
+
+      - name: Syntax check backend JavaScript files
+        working-directory: backend
         run: |
           find . -name "*.js" -not -path "*/node_modules/*" -exec node --check {} \;
