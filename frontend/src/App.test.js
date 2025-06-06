@@ -1,14 +1,12 @@
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { render } from '@testing-library/react';
 import App from './App';
 
-test('renders app without crashing', () => {
+test('renders MediBook login screen', () => {
   render(
     <BrowserRouter>
       <App />
     </BrowserRouter>
   );
 
-  // Change this to match actual text visible on your homepage
-  expect(screen.getByText(/login|register|dashboard|medibook/i)).toBeInTheDocument();
+  expect(screen.getByText(/medibook/i)).toBeInTheDocument();  // Checks the heading
 });
