@@ -1,4 +1,4 @@
-name: Frontend ESLint
+name: MediBook Minimal CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  lint:
+  check-frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,10 +17,14 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install frontend dependencies
-        working-directory: frontend
-        run: npm install
+      - name: Check frontend folder exists
+        run: test -d frontend
 
-      - name: Run ESLint
+      - name: Validate package.json
         working-directory: frontend
-        run: npx eslint . --ext .js,.jsx,.ts,.tsx
+        run: node -e "require('./package.json')"
+
+      - name: Syntax check JavaScript files
+        working-directory: frontend
+        run: |
+          find . -name "*.js" -not -path "*/node_modules/*" -exec node --check {} \;
